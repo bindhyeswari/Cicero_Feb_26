@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../base.css"/>
+</head>
+<body>
+    <div ng-controller="MyController">
+        <ul>
+            <li ng-repeat="item in items">{{item.full_name}}</li>
+        </ul>
+    </div>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script>
+        angular.module('myApp', []).controller('MyController', function ($scope) {
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.github.com/search/repositories?q=getUserMedia');
+            xhr.setRequestHeader('accept', 'application/json');
+            xhr.addEventListener('readystatechange', function () {
+                if( xhr.readyState === 4 && xhr.status === 200 ) {
+                    var obj = JSON.parse(xhr.responseText);
+                    $scope.items = obj.items;
+                    console.log($scope.items);
+                }
+            });
+            xhr.send();
+
+            $scope.message = 'Hello World!';
+        });
+    </script>
+</body>
+</html>

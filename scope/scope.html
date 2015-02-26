@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../base.css"/>
+</head>
+<body>
+    <div message></div>
+    <div ng-controller="MyController">
+        <div message></div>
+        <div ng-controller="Controller2">
+            <div message></div>
+        </div>
+    </div>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script>
+        angular.module('myApp', []).controller('MyController', function ($scope, $rootScope) {
+            $rootScope.message = 'Hello World from rootscope!';
+            $scope.message = 'Hello World!';
+        }).controller('Controller2', function ($scope) {
+            $scope.message = 'Hello World from Controller 2';
+        }).directive('message', function () {
+            return {
+                restrict: 'AE',
+                template: '{{message}}',
+                link: function (scope, element) {
+                    element.on('click', function () {
+                        console.log(scope.message);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
